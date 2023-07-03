@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('callable_id')->constrained();
             $table->morphs('callable');
             $table->string('number');
             $table->timestamps();
