@@ -45,4 +45,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function addressable() {
+        return $this->morphMany(Address::class, 'addressable');
+    }
+
+    public function phones() {
+        return $this->morphMany(Phone::class, 'callable');
+    }
+
+    public function inquires() {
+        return $this->hasMany(Inquire::class,'user_id');
+    }
 }
