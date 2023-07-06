@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::guard('api')->attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return response()->json(['message' => 'Authenticated successfully'], 200);
         }
 
@@ -34,4 +34,3 @@ class AuthenticatedSessionController extends Controller
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 }
-
