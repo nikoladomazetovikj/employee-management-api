@@ -46,15 +46,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function addressable() {
+    public function addressable()
+    {
         return $this->morphMany(Address::class, 'addressable');
     }
 
-    public function phones() {
+    public function phones()
+    {
         return $this->morphMany(Phone::class, 'callable');
     }
 
-    public function inquires() {
+    public function inquires()
+    {
         return $this->hasMany(Inquire::class,'user_id');
     }
+
+    public function company()
+    {
+        return $this->belongsToMany(Company::class, 'company_employees', 'user_id', 'company_id')
+            ->withPivot('role_id');
+    }
+
 }

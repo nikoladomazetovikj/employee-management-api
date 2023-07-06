@@ -22,4 +22,11 @@ class Company extends Model
     public function phones() {
         return $this->morphMany(Phone::class, 'callable');
     }
+
+    public function employees()
+    {
+        return $this->belongsToMany(User::class, 'company_employees', 'company_id', 'user_id')
+            ->withPivot('role_id');
+    }
+
 }
