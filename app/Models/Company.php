@@ -12,14 +12,16 @@ class Company extends Model
 
     protected $fillable = [
         'name',
-        'email'
+        'email',
     ];
 
-    public function addressable() {
+    public function addressable()
+    {
         return $this->morphMany(Address::class, 'addressable');
     }
 
-    public function phones() {
+    public function phones()
+    {
         return $this->morphMany(Phone::class, 'callable');
     }
 
@@ -28,5 +30,4 @@ class Company extends Model
         return $this->belongsToMany(User::class, 'company_employees', 'company_id', 'user_id')
             ->withPivot('role_id');
     }
-
 }

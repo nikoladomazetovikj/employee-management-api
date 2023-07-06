@@ -16,10 +16,11 @@ class Inquire extends Model
         'status_id',
         'type',
         'start',
-        'end'
+        'end',
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

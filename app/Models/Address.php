@@ -15,12 +15,11 @@ class Address extends Model
         'city',
         'state',
         'zip',
-        'country'
+        'country',
     ];
 
     public function addressable()
     {
         return $this->morphTo();
     }
-
 }

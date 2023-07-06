@@ -11,10 +11,11 @@ class Phone extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'number'
+        'number',
     ];
 
-    public function callable() {
+    public function callable()
+    {
         return $this->morphTo();
     }
 }

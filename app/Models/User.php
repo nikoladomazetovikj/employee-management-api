@@ -23,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'surname',
-        'date_of_birth'
+        'date_of_birth',
     ];
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function inquires()
     {
-        return $this->hasMany(Inquire::class,'user_id');
+        return $this->hasMany(Inquire::class, 'user_id');
     }
 
     public function company()
@@ -66,5 +66,4 @@ class User extends Authenticatable
         return $this->belongsToMany(Company::class, 'company_employees', 'user_id', 'company_id')
             ->withPivot('role_id');
     }
-
 }
