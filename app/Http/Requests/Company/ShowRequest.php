@@ -11,6 +11,12 @@ class ShowRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $companyId = $this->user()->company()->first()->pivot->company_id;
+
+        if ($this->company->id === $companyId) {
+            return true;
+        }
+
         return false;
     }
 

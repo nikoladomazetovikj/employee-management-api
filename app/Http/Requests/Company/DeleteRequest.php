@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteRequest extends FormRequest
@@ -11,6 +12,13 @@ class DeleteRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $companyId = $this->user()->company()->first()->pivot->company_id;
+        $isManager = $this->user()->company()->first()->pivot->role_id;
+
+        if (($this->company->id === $companyId) && ($isManager === Role::MANAGER->value)) {
+            return true;
+        }
+
         return false;
     }
 

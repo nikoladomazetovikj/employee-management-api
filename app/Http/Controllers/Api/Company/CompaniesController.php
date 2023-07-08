@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\Company;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateRequest;
+use App\Http\Requests\Company\DeleteRequest;
+use App\Http\Requests\Company\ShowRequest;
+use App\Http\Requests\Company\UpdateRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -38,24 +41,28 @@ class CompaniesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
+    public function show(Company $company, ShowRequest $request)
     {
-        //
+        return new CompanyResource($company);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateRequest $request, Company $company)
     {
-        //
+        $company->update($request->validated());
+
+        return new CompanyResource($company);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company, DeleteRequest $request)
     {
-        //
+        $company->delete();
+
+        return response()->noContent();
     }
 }

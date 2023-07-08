@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -11,6 +13,13 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $companyId = $this->user()->company()->first()->pivot->company_id;
+        $isManager = $this->user()->company()->first()->pivot->role_id;
+
+        if (($this->company->id === $companyId) && ($isManager === Role::MANAGER->value)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -22,7 +31,13 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes|required',
+            'email' => [
+                'sometimes',
+                'required',
+                'email',
+                Rule::unique('companies', 'email')->ignore($this->company)
+            ]
         ];
     }
 }
