@@ -28,6 +28,10 @@ class CompaniesController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        if ($request->user()->company()->exists()) {
+            return response()->json(['message' => 'You can only create one company.'], 422);
+        }
+
         $data = $request->safe();
 
         $company = new Company();

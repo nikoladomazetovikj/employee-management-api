@@ -19,6 +19,9 @@ return new class extends Migration
             $table->bigInteger('role_id')->unsigned()->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->integer('vacation_days')->nullable();
+
+            $table->unique(['user_id', 'company_id']);
+            $table->unique('user_id');
         });
     }
 
