@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -17,11 +17,11 @@ class AuthenticatedSessionController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Authenticated successfully'], 200);
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json(['token' => $token], 200);
     }
 
     /**
@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        Auth::guard('api')->logout();
+        JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json(['message' => 'Logged out successfully'], 200);
     }

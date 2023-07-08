@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisteredUserController extends Controller
 {
@@ -43,8 +44,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-//        Auth::guard('web')->login($user);
+        $token = JWTAuth::fromUser($user);
 
-        return new UserResource($user);
+        return response()->json([
+            'token' => $token,
+            'user' => new UserResource($user),
+        ], 201);
     }
 }
