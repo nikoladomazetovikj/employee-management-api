@@ -82,3 +82,16 @@ php artisan jwt:secret
 http://127.0.0.1:8000
 ```
 
+## Usage of APIs:
+
+- For authentications routes there is no need to set token
+- When user registers or logs in the token is generated
+- Place the token in header:
+```angular2html
+bearer your_token
+```
+- Do not forget to call APIs with:
+```angular2html
+Accept: application/json 
+```
+in the header
