@@ -26,6 +26,9 @@ return new class extends Migration
             $table->date('end');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['user_id', 'status_id', 'type', 'start']);
+
         });
     }
 
