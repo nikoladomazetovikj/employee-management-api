@@ -29,7 +29,7 @@ class CompaniesController extends Controller
             'email' => $request->email,
         ]);
 
-        $company->employees()->sync($request->user()->id, ['role_id' => Role::MANAGER->value]);
+        $company->employees()->attach($request->user()->id, ['role_id' => Role::MANAGER->value]);
 
         return new CompanyResource($company);
 

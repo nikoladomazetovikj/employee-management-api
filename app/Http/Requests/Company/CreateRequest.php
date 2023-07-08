@@ -4,6 +4,7 @@ namespace App\Http\Requests\Company;
 
 use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => ['required', 'email']
+            'email' => ['required', 'email', Rule::unique('companies', 'email')]
         ];
     }
 }
