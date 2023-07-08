@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('jwt.auth')->group(function () {
     Route::apiResources([
         'company' => \App\Http\Controllers\Api\Company\CompaniesController::class
     ]);

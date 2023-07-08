@@ -32,7 +32,8 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth:sanctum')
-    ->name('logout');
+Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    //TODO: add missing routes
+});
 
