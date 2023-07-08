@@ -11,6 +11,7 @@ use App\Http\Requests\Company\UpdateRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompaniesController extends Controller
 {
@@ -27,17 +28,28 @@ class CompaniesController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $company = Company::create([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $data = $request->safe();
 
-        if ($request->has('address')) {
-            $address = $request->input('address');
-            $company->addressable()->create($address);
-        }
+        $company = new Company();
 
-        $company->employees()->attach($request->user()->id, ['role_id' => Role::MANAGER->value]);
+        DB::transaction(function () use ($data, &$company, $request) {
+
+            $company->fill($data->except('address', 'phone'));
+
+            $company->save();
+
+            if ($request->has('address')) {
+                $address = $request->input('address');
+                $company->addressable()->create($address);
+            }
+
+            if ($request->has('phone')) {
+                $phone = $request->input('phone');
+                $company->phones()->create($phone);
+            }
+
+            $company->employees()->attach($request->user()->id, ['role_id' => Role::MANAGER->value]);
+        });
 
         return new CompanyResource($company);
 
@@ -61,6 +73,11 @@ class CompaniesController extends Controller
         if ($request->has('address')) {
             $address = $request->input('address');
             $company->addressable()->update($address);
+        }
+
+        if ($request->has('phone')) {
+            $phone = $request->input('phone');
+            $company->phones()->update($phone);
         }
 
         return new CompanyResource($company);

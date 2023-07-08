@@ -4,12 +4,14 @@ namespace App\Http\Requests\Company;
 
 use App\Enums\Role;
 use App\Traits\HasAddress;
+use App\Traits\HasPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
     use HasAddress;
+    use HasPhone;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -42,6 +44,6 @@ class UpdateRequest extends FormRequest
             ]
         ];
 
-        return array_merge($rules, $this->OptionalAddressValidationRules());
+        return array_merge($rules, $this->OptionalAddressValidationRules(), $this->OptionalPhoneValidationRules());
     }
 }
