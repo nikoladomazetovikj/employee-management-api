@@ -32,6 +32,11 @@ class CompaniesController extends Controller
             'email' => $request->email,
         ]);
 
+        if ($request->has('address')) {
+            $address = $request->input('address');
+            $company->addressable()->create($address);
+        }
+
         $company->employees()->attach($request->user()->id, ['role_id' => Role::MANAGER->value]);
 
         return new CompanyResource($company);
@@ -52,6 +57,11 @@ class CompaniesController extends Controller
     public function update(UpdateRequest $request, Company $company)
     {
         $company->update($request->validated());
+
+        if ($request->has('address')) {
+            $address = $request->input('address');
+            $company->addressable()->update($address);
+        }
 
         return new CompanyResource($company);
     }

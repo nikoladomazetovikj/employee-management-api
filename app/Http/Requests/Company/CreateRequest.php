@@ -3,11 +3,13 @@
 namespace App\Http\Requests\Company;
 
 use App\Enums\Role;
+use App\Traits\HasAddress;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
+    use HasAddress;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,9 +26,11 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules =  [
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('companies', 'email')]
         ];
+
+        return array_merge($rules, $this->AddressValidationRules());
     }
 }

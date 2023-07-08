@@ -3,11 +3,13 @@
 namespace App\Http\Requests\Company;
 
 use App\Enums\Role;
+use App\Traits\HasAddress;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
+    use HasAddress;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -30,7 +32,7 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules =  [
             'name' => 'sometimes|required',
             'email' => [
                 'sometimes',
@@ -39,5 +41,7 @@ class UpdateRequest extends FormRequest
                 Rule::unique('companies', 'email')->ignore($this->company)
             ]
         ];
+
+        return array_merge($rules, $this->OptionalAddressValidationRules());
     }
 }
