@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateRequest;
+use App\Http\Requests\User\ShowRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,9 +59,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user, ShowRequest $request)
     {
-        //
+        return new UserResource($user);
     }
 
     /**
