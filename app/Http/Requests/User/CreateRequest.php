@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\User;
 
 use App\Enums\Role;
 use App\Traits\HasAddress;
@@ -12,13 +12,24 @@ class CreateRequest extends FormRequest
 {
     use HasAddress;
     use HasPhone;
-
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+        $company = $user->company()->first();
+
+        if ($company && $company->pivot) {
+            $companyId = $company->pivot->company_id;
+            $isManager = $company->pivot->role_id;
+
+            if ($companyId !== null && $isManager === Role::MANAGER->value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +41,10 @@ class CreateRequest extends FormRequest
     {
         $rules =  [
             'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('companies', 'email')]
+            'surname' => 'required',
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'date_of_birth' => ['required', 'date'],
+            'vacation_days' => 'required'
         ];
 
         return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules() );

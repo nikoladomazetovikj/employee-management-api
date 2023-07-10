@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('jwt.auth')->group(function () {
     Route::apiResources([
-        'company' => \App\Http\Controllers\Api\Company\CompaniesController::class
+        'company' => \App\Http\Controllers\Api\CompaniesController::class,
+        'user' => \App\Http\Controllers\Api\UserController::class
     ]);
 
 });
