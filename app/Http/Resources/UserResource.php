@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Role;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,13 +16,26 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $company = $this->company;
+        $vacationDays = null;
+        $roleId = null;
+        $role = null;
+
+        foreach ($company as $c) {
+            $vacationDays = $c->pivot->vacation_days;
+            $roleId = $c->pivot->role_id;
+            $role = Role::getDescription($roleId);
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'surname' => $this->surname,
             'date_of_birth' => $this->date_of_birth,
             'email' => $this->email,
-            'company' => new CompanyResource($this->company)
+            'company' => CompanyResource::collection($this->company),
+            'vacation_days' => $vacationDays,
+            'role' => $role,
         ];
     }
 }
