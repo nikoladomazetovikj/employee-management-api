@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateRequest;
+use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\ShowRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -67,16 +69,30 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
-        //
+        $user->update($request->validated());
+
+        if ($request->has('address')) {
+            $address = $request->input('address');
+            $user->addressable()->update($address);
+        }
+
+        if ($request->has('phone')) {
+            $phone = $request->input('phone');
+            $user->phones()->update($phone);
+        }
+
+        return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user, DeleteRequest $request)
     {
-        //
+        $user->delete();
+
+        return response()->noContent();
     }
 }
