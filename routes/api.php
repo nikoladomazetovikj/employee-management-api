@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('jwt.auth')->group(function () {
     Route::apiResources([
         'company' => \App\Http\Controllers\Api\CompaniesController::class,
-        'user' => \App\Http\Controllers\Api\UserController::class
+        'user' => \App\Http\Controllers\Api\UserController::class,
+        'inquire' => \App\Http\Controllers\Api\InquireController::class
     ]);
 
 });

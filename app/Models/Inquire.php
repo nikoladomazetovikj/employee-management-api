@@ -10,6 +10,8 @@ class Inquire extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'inquire_id';
+
     protected $fillable = [
         'inquire_id',
         'user_id',
