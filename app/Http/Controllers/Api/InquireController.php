@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Inquire\CreateRequest;
 use App\Http\Requests\Inquire\ListRequest;
 use App\Http\Requests\Inquire\ShowRequest;
+use App\Http\Requests\Inquire\UpdateRequest;
 use App\Http\Resources\InquireResource;
 use App\Models\Inquire;
 use Faker\Core\Uuid;
@@ -64,9 +65,11 @@ class InquireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inquire $inquire)
+    public function update(UpdateRequest $request, Inquire $inquire)
     {
-        //
+        $inquire->update(['status_id' => $request->status_id]);
+
+        return new InquireResource($inquire);
     }
 
     /**
