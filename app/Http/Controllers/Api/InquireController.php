@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inquire\CreateRequest;
 use App\Http\Requests\Inquire\ListRequest;
+use App\Http\Requests\Inquire\ShowRequest;
 use App\Http\Resources\InquireResource;
 use App\Models\Inquire;
 use Faker\Core\Uuid;
@@ -55,9 +56,9 @@ class InquireController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Inquire $inquire)
+    public function show(Inquire $inquire, ShowRequest $request)
     {
-        //
+        return new InquireResource($inquire);
     }
 
     /**
