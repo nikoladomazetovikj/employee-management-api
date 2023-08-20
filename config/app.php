@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'EmployeeSystemManager'),
+    'name' => env('APP_NAME', 'Employee System Manager'),
 
     /*
     |--------------------------------------------------------------------------
