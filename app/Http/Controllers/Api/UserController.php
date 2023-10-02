@@ -21,7 +21,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::with('addressable', 'phones', 'company')->get();
+
+        return UserResource::collection($users);
     }
 
     /**
