@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
@@ -21,7 +22,15 @@ class AuthenticatedSessionController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        return response()->json(['token' => $token, 'user' => $request->user()], 200);
+        $user = $request->user();
+        $company = $request->user()->company;
+
+        foreach ($company as $c) {
+            $roleId = $c->pivot->role_id;
+            $role = Role::getDescription($roleId);
+        }
+
+        return response()->json(['token' => $token, 'user' => $request->user(), 'role' => $role], 200);
     }
 
     /**
