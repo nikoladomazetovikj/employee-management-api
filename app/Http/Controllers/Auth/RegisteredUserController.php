@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
@@ -28,11 +31,14 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'date_of_birth' => ['required', 'date'],
+            'is_manager' => ['required', 'bool']
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        $company = Company::where('email', 'like', '%maincompany%')->first();
 
         $user = User::create([
             'name' => $request->name,
@@ -41,6 +47,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'date_of_birth' => $request->date_of_birth,
         ]);
+        $company->employees()->attach($user->id, ['role_id' => Role::MANAGER->value]);
 
         event(new Registered($user));
 
