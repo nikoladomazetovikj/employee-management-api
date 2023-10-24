@@ -20,6 +20,7 @@ Route::middleware('jwt.auth')->group(function () {
         'inquire' => \App\Http\Controllers\Api\InquireController::class
     ]);
 
+    Route::get('/archivedUsers', [\App\Http\Controllers\APi\UserController::class, 'deletedUsers']);
     Route::get('/types', \App\Http\Controllers\APi\TypesController::class);
     Route::get('/statuses', \App\Http\Controllers\APi\StatusController::class);
     Route::get('/myInquires', \App\Http\Controllers\APi\MyInquiresController::class);

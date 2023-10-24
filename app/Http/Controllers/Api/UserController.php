@@ -97,4 +97,11 @@ class UserController extends Controller
 
         return response()->noContent();
     }
+
+    public function deletedUsers()
+    {
+        $users = User::with('addressable', 'phones', 'company')->onlyTrashed()->get();
+
+        return UserResource::collection($users);
+    }
 }
