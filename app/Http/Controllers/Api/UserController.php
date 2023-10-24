@@ -107,4 +107,13 @@ class UserController extends Controller
 
         return UserResource::collection($users);
     }
+
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        $user->restore();
+
+        return response()->noContent();
+    }
 }
