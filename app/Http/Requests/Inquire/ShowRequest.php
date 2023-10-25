@@ -17,6 +17,7 @@ class ShowRequest extends FormRequest
         if ($isManager === Role::MANAGER->value) {
             return true;
         }
+
         return false;
     }
 

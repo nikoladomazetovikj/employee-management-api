@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             StatusesSeeder::class,
             InquireTypeSeeder::class,
             RoleSeeder::class,
-            CompanySeeder::class
+            CompanySeeder::class,
         ]);
     }
 }

@@ -53,11 +53,9 @@ class UserController extends Controller
                 $user->phones()->create($phone);
             }
 
-
             $company = $request->user()->load('company');
 
-            $user->company()->attach($company->company[0]->id, ['role_id' => Role::EMPLOYEE->value, 'vacation_days' =>
-                $request->vacation_days]);
+            $user->company()->attach($company->company[0]->id, ['role_id' => Role::EMPLOYEE->value, 'vacation_days' => $request->vacation_days]);
         });
 
         return new UserResource($user);

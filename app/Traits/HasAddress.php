@@ -25,5 +25,4 @@ trait HasAddress
             'address.country' => 'sometimes|required',
         ];
     }
-
 }

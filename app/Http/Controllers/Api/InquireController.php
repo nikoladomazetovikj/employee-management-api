@@ -10,8 +10,6 @@ use App\Http\Requests\Inquire\ShowRequest;
 use App\Http\Requests\Inquire\UpdateRequest;
 use App\Http\Resources\InquireResource;
 use App\Models\Inquire;
-use Faker\Core\Uuid;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Uid\Ulid;
 

@@ -36,4 +36,3 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     //TODO: add missing routes
 });
-

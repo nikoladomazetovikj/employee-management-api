@@ -12,6 +12,7 @@ class UpdateRequest extends FormRequest
 {
     use HasAddress;
     use HasPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,14 +35,14 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules =  [
+        $rules = [
             'name' => 'sometimes|required',
             'email' => [
                 'sometimes',
                 'required',
                 'email',
-                Rule::unique('companies', 'email')->ignore($this->company)
-            ]
+                Rule::unique('companies', 'email')->ignore($this->company),
+            ],
         ];
 
         return array_merge($rules, $this->OptionalAddressValidationRules(), $this->OptionalPhoneValidationRules());

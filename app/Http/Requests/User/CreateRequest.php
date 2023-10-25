@@ -12,6 +12,7 @@ class CreateRequest extends FormRequest
 {
     use HasAddress;
     use HasPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -39,14 +40,14 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules =  [
+        $rules = [
             'name' => 'required',
             'surname' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'date_of_birth' => ['required', 'date'],
-            'vacation_days' => 'required'
+            'vacation_days' => 'required',
         ];
 
-        return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules() );
+        return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules());
     }
 }

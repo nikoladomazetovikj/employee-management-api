@@ -17,7 +17,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::apiResources([
         'company' => \App\Http\Controllers\Api\CompaniesController::class,
         'user' => \App\Http\Controllers\Api\UserController::class,
-        'inquire' => \App\Http\Controllers\Api\InquireController::class
+        'inquire' => \App\Http\Controllers\Api\InquireController::class,
     ]);
 
     Route::get('/archivedUsers', [\App\Http\Controllers\APi\UserController::class, 'deletedUsers']);

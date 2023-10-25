@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum InquireType : int
+enum InquireType: int
 {
     case VACATION = 1;
     case DAY_OFF = 2;

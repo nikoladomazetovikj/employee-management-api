@@ -17,6 +17,7 @@ class UpdateRequest extends FormRequest
         if ($isManager === Role::MANAGER->value) {
             return true;
         }
+
         return false;
     }
 
@@ -28,7 +29,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status_id' => 'required'
+            'status_id' => 'required',
         ];
     }
 }

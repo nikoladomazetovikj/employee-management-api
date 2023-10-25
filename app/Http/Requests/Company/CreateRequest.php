@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Company;
 
-use App\Enums\Role;
 use App\Traits\HasAddress;
 use App\Traits\HasPhone;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,11 +27,11 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules =  [
+        $rules = [
             'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('companies', 'email')]
+            'email' => ['required', 'email', Rule::unique('companies', 'email')],
         ];
 
-        return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules() );
+        return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules());
     }
 }
