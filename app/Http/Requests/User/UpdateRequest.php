@@ -47,7 +47,7 @@ class UpdateRequest extends FormRequest
         $rules = [
             'name' => 'sometimes|required',
             'surname' => 'sometimes|required',
-            'email' => ['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore($this->user())],
+            'email' => ['sometimes', 'required', 'email', Rule::unique('users', 'email')->ignore($this->user)],
             'date_of_birth' => ['sometimes', 'required', 'date'],
             'vacation_days' => 'required|sometimes',
         ];
