@@ -10,6 +10,7 @@ use App\Http\Requests\User\ShowRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\UserCreatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -35,11 +36,13 @@ class UserController extends Controller
 
         $user = new User();
 
-        DB::transaction(function () use ($data, &$user, $request) {
+        $password = '123456789';
+
+        DB::transaction(function () use ($data, &$user, $request, $password) {
 
             $user->fill($data->except('address', 'phone', 'vacation_days'));
 
-            $user->password = Hash::make('12345678');
+            $user->password = Hash::make($password);
 
             $user->save();
 
@@ -55,8 +58,15 @@ class UserController extends Controller
 
             $company = $request->user()->load('company');
 
-            $user->company()->attach($company->company[0]->id, ['role_id' => Role::EMPLOYEE->value, 'vacation_days' => $request->vacation_days]);
+            $user->company()
+                ->attach($company->company[0]->id,
+                    ['role_id' => Role::EMPLOYEE->value, 'vacation_days' => $request->vacation_days]);
+
+
+            $user->notify(new UserCreatedNotification($password, $user, $company->company[0]->name));
         });
+
+
 
         return new UserResource($user);
     }
