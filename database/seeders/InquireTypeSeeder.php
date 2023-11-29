@@ -17,22 +17,27 @@ class InquireTypeSeeder extends Seeder
             [
                 'id' => InquireType::VACATION->value,
                 'name' => InquireType::VACATION->name,
+                'friendly_name' => 'Vacation'
             ],
             [
                 'id' => InquireType::DAY_OFF->value,
                 'name' => InquireType::DAY_OFF->name,
+                'friendly_name' => 'Day Off'
             ],
             [
                 'id' => InquireType::REMOTE->value,
                 'name' => InquireType::REMOTE->name,
+                'friendly_name' => 'Remote'
             ],
             [
                 'id' => InquireType::MEDICAL->value,
                 'name' => InquireType::MEDICAL->name,
+                'friendly_name' => 'Medical'
             ],
             [
                 'id' => InquireType::UNPAID->value,
                 'name' => InquireType::UNPAID->name,
+                'friendly_name' => 'Unpaid'
             ],
         ]);
     }

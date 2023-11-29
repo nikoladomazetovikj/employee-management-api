@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('inquire_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('friendly_name');
         });
     }
 
