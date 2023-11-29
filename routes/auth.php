@@ -25,7 +25,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->name('password.store');
 
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->middleware(['guest', 'signed:relative', 'throttle:6,1'])
     ->name('verification.verify');
 
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
@@ -34,5 +34,4 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-    //TODO: add missing routes
 });
