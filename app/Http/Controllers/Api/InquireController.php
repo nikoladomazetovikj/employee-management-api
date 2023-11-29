@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Status;
+use App\Events\InquireNotifyEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inquire\CreateRequest;
 use App\Http\Requests\Inquire\ListRequest;
@@ -10,6 +11,7 @@ use App\Http\Requests\Inquire\ShowRequest;
 use App\Http\Requests\Inquire\UpdateRequest;
 use App\Http\Resources\InquireResource;
 use App\Models\Inquire;
+use App\Notifications\InquireRequestNotification;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Uid\Ulid;
 
@@ -48,6 +50,8 @@ class InquireController extends Controller
             'start' => $request->start,
             'end' => $request->end,
         ]);
+
+        event(new InquireNotifyEvent($inquire, $request->user()->company[0]->id, $request->user()));
 
         return new InquireResource($inquire);
     }
