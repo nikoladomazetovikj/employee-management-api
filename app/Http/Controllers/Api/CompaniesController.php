@@ -10,6 +10,7 @@ use App\Http\Requests\Company\ShowRequest;
 use App\Http\Requests\Company\UpdateRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompaniesController extends Controller
@@ -17,9 +18,13 @@ class CompaniesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $company = $request->user()->company[0]->id;
+
+        $com = Company::find($company);
+
+        return new CompanyResource($com);
     }
 
     /**
