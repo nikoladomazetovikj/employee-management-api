@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Status;
 use App\Events\InquireNotifyEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inquire\CreateRequest;
@@ -11,7 +10,11 @@ use App\Http\Requests\Inquire\ShowRequest;
 use App\Http\Requests\Inquire\UpdateRequest;
 use App\Http\Resources\InquireResource;
 use App\Models\Inquire;
+use App\Models\InquireType;
+use App\Models\Status;
+use App\Models\User;
 use App\Notifications\InquireRequestNotification;
+use App\Notifications\NotifyInquireStatus;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Uid\Ulid;
 
@@ -70,6 +73,16 @@ class InquireController extends Controller
     public function update(UpdateRequest $request, Inquire $inquire)
     {
         $inquire->update(['status_id' => $request->status_id]);
+
+        $user = User::find($inquire->user_id);
+
+        $status = Status::find($request->status_id);
+
+        $statusName = ucfirst(strtolower($status->name));
+
+        $type = InquireType::find($inquire->type);
+
+        $user->notify(new NotifyInquireStatus($inquire, $statusName, $user, $type));
 
         return new InquireResource($inquire);
     }
