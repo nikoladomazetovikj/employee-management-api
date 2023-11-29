@@ -22,7 +22,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('addressable', 'phones', 'company')->whereNot('id', $request->user()->id)->get();
+        $company = $request->user()->company[0]->id;
+
+        $users = User::with('addressable', 'phones', 'company')
+            ->whereHas('company', function ($query) use ($company) {
+                $query->where('company_id', $company);
+            } )
+            ->whereNot('id', $request->user()->id)->get();
 
         return UserResource::collection($users);
     }
@@ -60,7 +66,7 @@ class UserController extends Controller
 
             $user->company()
                 ->attach($company->company[0]->id,
-                    ['role_id' => Role::EMPLOYEE->value, 'vacation_days' => $request->vacation_days]);
+                    ['role_id' => $request->role_id, 'vacation_days' => $request->vacation_days]);
 
 
             $user->notify(new UserCreatedNotification($password, $user, $company->company[0]->name));

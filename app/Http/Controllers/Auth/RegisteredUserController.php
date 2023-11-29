@@ -36,8 +36,6 @@ class RegisteredUserController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $company = Company::where('email', 'like', '%maincompany%')->first();
-
         $user = User::create([
             'name' => $request->name,
             'surname' => $request->surname,
@@ -45,6 +43,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'date_of_birth' => $request->date_of_birth,
         ]);
+
+        $company = $this->createUserCompany($user);
         $company->employees()->attach($user->id, ['role_id' => Role::MANAGER->value]);
 
         event(new Registered($user));
@@ -55,5 +55,15 @@ class RegisteredUserController extends Controller
             'token' => $token,
             'user' => new UserResource($user),
         ], 201);
+    }
+
+    public function createUserCompany($user)
+    {
+        $company = Company::create([
+            'name' => $user->name . ' Company',
+            'email' => $user->email,
+        ]);
+
+        return $company;
     }
 }

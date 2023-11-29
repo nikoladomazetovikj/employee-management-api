@@ -17,10 +17,12 @@ class RoleSeeder extends Seeder
             [
                 'id' => Role::MANAGER->value,
                 'name' => Role::MANAGER->name,
+                'friendly_name' => 'Manager',
             ],
             [
                 'id' => Role::EMPLOYEE->value,
                 'name' => Role::EMPLOYEE->name,
+                'friendly_name' => 'Employee',
             ],
         ]);
     }
