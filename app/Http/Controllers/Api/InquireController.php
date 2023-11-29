@@ -48,7 +48,7 @@ class InquireController extends Controller
         $inquire = Inquire::create([
             'inquire_id' => $inquireId,
             'user_id' => $userId,
-            'status_id' => Status::PENDING->value,
+            'status_id' => \App\Enums\Status::PENDING->value,
             'type' => $request->type,
             'start' => $request->start,
             'end' => $request->end,
