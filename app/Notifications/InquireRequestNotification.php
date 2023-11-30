@@ -6,7 +6,6 @@ use App\Models\Inquire;
 use App\Models\InquireType;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -23,8 +22,7 @@ class InquireRequestNotification extends Notification
         public readonly User $user,
         public readonly User $notifyUser,
         public readonly InquireType $type
-    )
-    {
+    ) {
         //
     }
 
@@ -44,7 +42,7 @@ class InquireRequestNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(env('APP_NAME') . ' - Inquire')
+            ->subject(env('APP_NAME').' - Inquire')
             ->greeting("Hello, {$this->notifyUser->name} {$this->notifyUser->surname}")
             ->line("{$this->user->name} {$this->user->surname} has requested a {$this->type->friendly_name}
             for following dates: {$this->inquire->start} {$this->inquire->end}");

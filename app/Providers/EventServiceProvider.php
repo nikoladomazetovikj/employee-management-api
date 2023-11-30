@@ -20,8 +20,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         InquireNotifyEvent::class => [
-            InquireNotifyListener::class
-        ]
+            InquireNotifyListener::class,
+        ],
     ];
 
     /**

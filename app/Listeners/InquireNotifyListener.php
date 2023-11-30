@@ -7,8 +7,6 @@ use App\Events\InquireNotifyEvent;
 use App\Models\InquireType;
 use App\Models\User;
 use App\Notifications\InquireRequestNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 
 class InquireNotifyListener
@@ -39,5 +37,4 @@ class InquireNotifyListener
             $user->notify(new InquireRequestNotification($event->inquire, $event->company, $event->user, $user, $inquireType));
         }
     }
-
 }

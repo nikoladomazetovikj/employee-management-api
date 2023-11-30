@@ -13,7 +13,6 @@ use App\Models\Inquire;
 use App\Models\InquireType;
 use App\Models\Status;
 use App\Models\User;
-use App\Notifications\InquireRequestNotification;
 use App\Notifications\NotifyInquireStatus;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Uid\Ulid;

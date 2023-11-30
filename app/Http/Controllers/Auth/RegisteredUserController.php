@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
     public function createUserCompany($user)
     {
         $company = Company::create([
-            'name' => $user->name . ' Company',
+            'name' => $user->name.' Company',
             'email' => $user->email,
         ]);
 

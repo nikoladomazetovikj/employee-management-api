@@ -46,7 +46,7 @@ class CreateRequest extends FormRequest
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'date_of_birth' => ['required', 'date'],
             'vacation_days' => 'required',
-            'role_id' => ['required']
+            'role_id' => ['required'],
         ];
 
         return array_merge($rules, $this->AddressValidationRules(), $this->PhoneValidationRules());

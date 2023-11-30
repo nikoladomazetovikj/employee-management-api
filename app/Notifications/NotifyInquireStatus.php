@@ -6,7 +6,6 @@ use App\Models\Inquire;
 use App\Models\InquireType;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -22,8 +21,7 @@ class NotifyInquireStatus extends Notification
         public readonly string $statusName,
         public readonly User $user,
         public readonly InquireType $type
-    )
-    {
+    ) {
         //
     }
 
@@ -43,7 +41,7 @@ class NotifyInquireStatus extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(env('APP_NAME') . ' - Inquire Status Changed')
+            ->subject(env('APP_NAME').' - Inquire Status Changed')
             ->greeting("Hello, {$this->user->name} {$this->user->surname}")
             ->line("The status of your request for  {$this->type->friendly_name}
             on following dates: {$this->inquire->start} {$this->inquire->end} has been changed")

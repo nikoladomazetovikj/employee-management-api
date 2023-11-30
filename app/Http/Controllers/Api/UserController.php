@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\DeleteRequest;
@@ -27,7 +26,7 @@ class UserController extends Controller
         $users = User::with('addressable', 'phones', 'company')
             ->whereHas('company', function ($query) use ($company) {
                 $query->where('company_id', $company);
-            } )
+            })
             ->whereNot('id', $request->user()->id)->get();
 
         return UserResource::collection($users);
@@ -68,11 +67,8 @@ class UserController extends Controller
                 ->attach($company->company[0]->id,
                     ['role_id' => $request->role_id, 'vacation_days' => $request->vacation_days]);
 
-
             $user->notify(new UserCreatedNotification($password, $user, $company->company[0]->name));
         });
-
-
 
         return new UserResource($user);
     }
