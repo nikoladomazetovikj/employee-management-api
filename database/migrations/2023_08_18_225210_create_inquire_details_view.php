@@ -20,7 +20,7 @@ return new class extends Migration
                 u.email AS user_email,
                 c.name AS company_name,
                 c.id AS company_id,
-                it.name AS type_name,
+                it.friendly_name AS type_name,
                 it.id AS type_id,
                 s.name AS status_name,
                 s.id AS status_id,
