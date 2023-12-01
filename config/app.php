@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Employee System Manager'),
+    'name' => env('APP_NAME', 'Time Mozaic'),
 
     /*
     |--------------------------------------------------------------------------
