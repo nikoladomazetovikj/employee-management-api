@@ -4,7 +4,9 @@ namespace App\Http\Requests\Inquire;
 
 use App\Enums\InquireType;
 use App\Enums\Role;
+use App\Rules\MaxDaysRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class CreateRequest extends FormRequest
@@ -36,10 +38,16 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = $this->user();
+
+        $maxDays = $user->company[0]->pivot->vacation_days;
+
         return [
             'type' => ['required', new Enum(InquireType::class)],
             'start' => ['required', 'date'],
-            'end' => ['required', 'date',  'after_or_equal:start'],
+            'end' => ['required', 'date',  'after_or_equal:start',
+                new MaxDaysRule($maxDays)
+            ],
         ];
     }
 }
