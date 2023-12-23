@@ -38,16 +38,18 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = $this->user();
-
-        $maxDays = $user->company[0]->pivot->vacation_days;
-
-        return [
+        $rules = [
             'type' => ['required', new Enum(InquireType::class)],
             'start' => ['required', 'date'],
-            'end' => ['required', 'date',  'after_or_equal:start',
-                new MaxDaysRule($maxDays)
-            ],
+            'end' => ['required', 'date', 'after_or_equal:start'],
         ];
+
+        if ($this->input('type') === InquireType::VACATION->value) {
+            $user = $this->user();
+            $rules['end'][] = new MaxDaysRule($user->company[0]->pivot->vacation_days);
+        }
+
+        return $rules;
+
     }
 }
