@@ -15,7 +15,7 @@ class InquireResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'inquire_id' => $this->id,
+            'inquire_id' => $this->inquire_id,
             'user_id' => $this->user_id,
             'status_id' => $this->status_id,
             'type' => $this->type,

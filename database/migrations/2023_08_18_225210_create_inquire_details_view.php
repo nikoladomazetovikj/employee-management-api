@@ -25,7 +25,8 @@ return new class extends Migration
                 s.name AS status_name,
                 s.id AS status_id,
                 i.start,
-                i.end
+                i.end,
+                ce.vacation_days
             FROM inquires i
             JOIN users u ON i.user_id = u.id
             JOIN company_employees ce ON u.id = ce.user_id
