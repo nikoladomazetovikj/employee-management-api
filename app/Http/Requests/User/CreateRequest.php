@@ -45,7 +45,7 @@ class CreateRequest extends FormRequest
             'surname' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'date_of_birth' => ['required', 'date'],
-            'vacation_days' => 'required',
+            'vacation_days' => ['required', 'min:0'],
             'role_id' => ['required'],
         ];
 
